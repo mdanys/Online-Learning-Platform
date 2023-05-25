@@ -13,7 +13,7 @@ import (
 )
 
 // FUNC TO INITIALIZE DATABASE CONFIG
-func InitDatabase(c *config.AppConfig) {
+func InitDatabase(c *config.AppConfig) sql.DB {
 	connection := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", c.DBUser, c.DBPass, c.DBHost, c.DBPort, c.DBName)
 	val := url.Values{}
 	val.Add("multiStatements", "true")
@@ -40,7 +40,7 @@ func InitDatabase(c *config.AppConfig) {
 	// Migrate database if any new schema
 	driver, err := mysql.WithInstance(dbConn, &mysql.Config{})
 	if err == nil {
-		mig, err := migrate.NewWithDatabaseInstance(c.PathMigrate, c.Database, driver)
+		mig, err := migrate.NewWithDatabaseInstance(c.PathMigrate, c.DBName, driver)
 		log.Info(c.PathMigrate)
 		if err == nil {
 			err = mig.Up()
@@ -64,4 +64,6 @@ func InitDatabase(c *config.AppConfig) {
 	} else {
 		log.Warn(err)
 	}
+
+	return *dbConn
 }
