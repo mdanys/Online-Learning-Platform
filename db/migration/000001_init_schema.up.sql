@@ -37,4 +37,5 @@ CREATE TABLE `user` (
     `dtm_crt`               TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `dtm_upd`               TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
+    UNIQUE (email)
 );
