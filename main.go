@@ -27,7 +27,10 @@ func main() {
 	categoryRepo := mysql.NewMySQLCategoryRepository(&dbConn)
 	categoryUsecase := usecase.NewCategoryUsecase(categoryRepo)
 
-	http.RouteAPI(e, categoryUsecase)
+	userRepo := mysql.NewMySQLUserRepository(&dbConn)
+	userUsecase := usecase.NewUserUsecase(userRepo)
+
+	http.RouteAPI(e, categoryUsecase, userUsecase)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", cfg.ServerPort)))
 }
