@@ -16,7 +16,6 @@ type AppConfig struct {
 	DBHost      string
 	DBName      string
 	PathMigrate string
-	Database    string
 	JWTSecret   string
 }
 
@@ -50,7 +49,6 @@ func initConfig() *AppConfig {
 	app.DBHost = os.Getenv("DB_HOST")
 	app.DBName = os.Getenv("DB_NAME")
 	app.PathMigrate = os.Getenv("PATH_MIGRATE")
-	app.Database = os.Getenv("DATABASE")
 	app.JWTSecret = os.Getenv("JWT_SECRET")
 
 	return &app
