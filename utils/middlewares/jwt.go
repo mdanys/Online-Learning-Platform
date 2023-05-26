@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"errors"
 	"online-learning-platform/config"
 	"time"
 
@@ -29,12 +30,12 @@ func GenerateToken(id int, role string) string {
 }
 
 // FUNC TO EXTRACT TOKEN
-func ExtractToken(c echo.Context) (id int, role string) {
+func ExtractToken(c echo.Context) (id int, role string, err error) {
 	token := c.Get("user").(*jwt.Token)
 	if token.Valid {
 		claim := token.Claims.(jwt.MapClaims)
-		return int(claim["id"].(float64)), string(claim["role"].(string))
+		return int(claim["id"].(float64)), string(claim["role"].(string)), nil
 	}
 
-	return 0, ""
+	return 0, "", errors.New("token failed")
 }

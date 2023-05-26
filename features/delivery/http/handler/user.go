@@ -2,6 +2,7 @@ package handler
 
 import (
 	"online-learning-platform/domain"
+	"online-learning-platform/utils/middlewares"
 	"strconv"
 	"strings"
 
@@ -47,6 +48,15 @@ func (uh *UserHandler) CreateUser() echo.HandlerFunc {
 
 func (uh *UserHandler) DeleteUser() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "admin" {
+			return c.JSON(fasthttp.StatusUnauthorized, "admin only")
+		}
+
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			return c.JSON(fasthttp.StatusBadRequest, err.Error())

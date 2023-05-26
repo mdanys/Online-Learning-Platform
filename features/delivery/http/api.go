@@ -15,6 +15,9 @@ func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUse
 	handlerCourse := handler.CourseHandler{CourseUsecase: course}
 	handlerTransaction := handler.TransactionHandler{TransactionUsecase: transaction}
 
+	// Login
+	e.POST("/login", handlerUser.Login())
+
 	// Category
 	e.POST("/category", handlerCategory.CreateCategory())
 	e.GET("/category", handlerCategory.GetCategories())
@@ -22,16 +25,15 @@ func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUse
 	e.PUT("/category/:id", handlerCategory.UpdateCategory())
 
 	// User
-	e.POST("/login", handlerUser.Login())
 	e.POST("/user", handlerUser.CreateUser())
-	e.DELETE("/user/:id", handlerUser.DeleteUser())
+	e.DELETE("/user/:id", handlerUser.DeleteUser(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 
 	// Course
-	e.POST("/course", handlerCourse.CreateCourse())
+	e.POST("/course", handlerCourse.CreateCourse(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 	e.GET("/course/:id", handlerCourse.GetCourseByID())
 	e.GET("/course", handlerCourse.GetAllCourse())
-	e.PATCH("/course/:id", handlerCourse.UpdateCourse())
-	e.DELETE("/course/:id", handlerCourse.DeleteCourse())
+	e.PATCH("/course/:id", handlerCourse.UpdateCourse(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
+	e.DELETE("/course/:id", handlerCourse.DeleteCourse(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 
 	// Transaction
 	e.POST("/transaction", handlerTransaction.CreateTransaction(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
