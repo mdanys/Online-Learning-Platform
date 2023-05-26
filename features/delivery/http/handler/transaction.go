@@ -15,7 +15,10 @@ type TransactionHandler struct {
 
 func (th *TransactionHandler) CreateTransaction() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
-		id, _ := middlewares.ExtractToken(c)
+		id, _, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
 
 		var input domain.TransactionRequest
 		err = c.Bind(&input)

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"online-learning-platform/domain"
+	"online-learning-platform/utils/middlewares"
 	"strconv"
 	"strings"
 
@@ -15,6 +16,15 @@ type CourseHandler struct {
 
 func (ch *CourseHandler) CreateCourse() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "admin" {
+			return c.JSON(fasthttp.StatusUnauthorized, "admin only")
+		}
+
 		var input domain.CourseRequest
 		err = c.Bind(&input)
 		if err != nil {
@@ -65,6 +75,7 @@ func (ch *CourseHandler) GetAllCourse() echo.HandlerFunc {
 		}
 
 		sort := c.QueryParam("sort")
+
 		var cat *string
 		categoryId := c.QueryParam("category_id")
 		if categoryId != "" {
@@ -82,6 +93,15 @@ func (ch *CourseHandler) GetAllCourse() echo.HandlerFunc {
 
 func (ch *CourseHandler) UpdateCourse() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "admin" {
+			return c.JSON(fasthttp.StatusUnauthorized, "admin only")
+		}
+
 		var input domain.CourseRequest
 		err = c.Bind(&input)
 		if err != nil {
@@ -104,6 +124,15 @@ func (ch *CourseHandler) UpdateCourse() echo.HandlerFunc {
 
 func (ch *CourseHandler) DeleteCourse() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "admin" {
+			return c.JSON(fasthttp.StatusUnauthorized, "admin only")
+		}
+
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			return c.JSON(fasthttp.StatusBadRequest, err.Error())
