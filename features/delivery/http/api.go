@@ -3,14 +3,17 @@ package http
 import (
 	"online-learning-platform/domain"
 	"online-learning-platform/features/delivery/http/handler"
+	"os"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
-func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUsecase, course domain.CourseUsecase) {
+func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUsecase, course domain.CourseUsecase, transaction domain.TransactionUsecase) {
 	handlerCategory := handler.CategoryHandler{CategoryUsecase: category}
 	handlerUser := handler.UserHandler{UserUsecase: user}
 	handlerCourse := handler.CourseHandler{CourseUsecase: course}
+	handlerTransaction := handler.TransactionHandler{TransactionUsecase: transaction}
 
 	// Category
 	e.POST("/category", handlerCategory.CreateCategory())
@@ -29,4 +32,8 @@ func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUse
 	e.GET("/course", handlerCourse.GetAllCourse())
 	e.PATCH("/course/:id", handlerCourse.UpdateCourse())
 	e.DELETE("/course/:id", handlerCourse.DeleteCourse())
+
+	// Transaction
+	e.POST("/transaction", handlerTransaction.CreateTransaction(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
+	e.GET("/transaction/:id", handlerTransaction.GetTransactionByID())
 }

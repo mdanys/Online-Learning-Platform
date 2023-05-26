@@ -33,7 +33,10 @@ func main() {
 	courseRepo := mysql.NewMySQLCourseRepository(&dbConn)
 	courseUsecase := usecase.NewCourseUsecase(courseRepo)
 
-	http.RouteAPI(e, categoryUsecase, userUsecase, courseUsecase)
+	transactionRepo := mysql.NewMySQLTransactionRepository(&dbConn)
+	transactionUsecase := usecase.NewTransactionUsecase(transactionRepo, courseRepo)
+
+	http.RouteAPI(e, categoryUsecase, userUsecase, courseUsecase, transactionUsecase)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", cfg.ServerPort)))
 }
