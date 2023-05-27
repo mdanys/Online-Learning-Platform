@@ -73,3 +73,23 @@ func (uh *UserHandler) DeleteUser() echo.HandlerFunc {
 		return c.JSON(fasthttp.StatusOK, "success")
 	}
 }
+
+func (uh *UserHandler) GetSimpleStatistics() echo.HandlerFunc {
+	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "admin" {
+			return c.JSON(fasthttp.StatusUnauthorized, "admin only")
+		}
+
+		res, err := uh.UserUsecase.GetSimpleStatistics(c.Request().Context())
+		if err != nil {
+			return c.JSON(fasthttp.StatusInternalServerError, err.Error())
+		}
+
+		return c.JSON(fasthttp.StatusOK, res)
+	}
+}

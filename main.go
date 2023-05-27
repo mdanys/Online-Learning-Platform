@@ -27,11 +27,11 @@ func main() {
 	categoryRepo := mysql.NewMySQLCategoryRepository(&dbConn)
 	categoryUsecase := usecase.NewCategoryUsecase(categoryRepo)
 
-	userRepo := mysql.NewMySQLUserRepository(&dbConn)
-	userUsecase := usecase.NewUserUsecase(userRepo)
-
 	courseRepo := mysql.NewMySQLCourseRepository(&dbConn)
 	courseUsecase := usecase.NewCourseUsecase(courseRepo)
+
+	userRepo := mysql.NewMySQLUserRepository(&dbConn)
+	userUsecase := usecase.NewUserUsecase(userRepo, courseRepo)
 
 	transactionRepo := mysql.NewMySQLTransactionRepository(&dbConn)
 	transactionUsecase := usecase.NewTransactionUsecase(transactionRepo, courseRepo)
