@@ -15,9 +15,13 @@ type TransactionHandler struct {
 
 func (th *TransactionHandler) CreateTransaction() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
-		id, _, err := middlewares.ExtractToken(c)
+		id, role, err := middlewares.ExtractToken(c)
 		if err != nil {
 			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "user" {
+			return c.JSON(fasthttp.StatusUnauthorized, "user only")
 		}
 
 		var input domain.TransactionRequest
@@ -39,6 +43,15 @@ func (th *TransactionHandler) CreateTransaction() echo.HandlerFunc {
 
 func (th *TransactionHandler) GetTransactionByID() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "user" {
+			return c.JSON(fasthttp.StatusUnauthorized, "user only")
+		}
+
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			return c.JSON(fasthttp.StatusBadRequest, err.Error())

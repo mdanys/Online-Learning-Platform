@@ -19,10 +19,10 @@ func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUse
 	e.POST("/login", handlerUser.Login())
 
 	// Category
-	e.POST("/category", handlerCategory.CreateCategory())
+	e.POST("/category", handlerCategory.CreateCategory(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 	e.GET("/category", handlerCategory.GetCategories())
 	e.GET("/category/:id", handlerCategory.GetCategory())
-	e.PUT("/category/:id", handlerCategory.UpdateCategory())
+	e.PUT("/category/:id", handlerCategory.UpdateCategory(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 
 	// User
 	e.POST("/user", handlerUser.CreateUser())
@@ -37,7 +37,7 @@ func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUse
 
 	// Transaction
 	e.POST("/transaction", handlerTransaction.CreateTransaction(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
-	e.GET("/transaction/:id", handlerTransaction.GetTransactionByID())
+	e.GET("/transaction/:id", handlerTransaction.GetTransactionByID(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 
 	// Statistics
 	e.GET("/statistics", handlerUser.GetSimpleStatistics(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))

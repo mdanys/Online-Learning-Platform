@@ -2,6 +2,7 @@ package handler
 
 import (
 	"online-learning-platform/domain"
+	"online-learning-platform/utils/middlewares"
 	"strconv"
 
 	"github.com/go-playground/validator/v10"
@@ -19,6 +20,15 @@ var (
 
 func (ch *CategoryHandler) CreateCategory() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "admin" {
+			return c.JSON(fasthttp.StatusUnauthorized, "admin only")
+		}
+
 		var input domain.CategoryRequest
 		err = c.Bind(&input)
 		if err != nil {
@@ -94,6 +104,15 @@ func (ch *CategoryHandler) GetCategories() echo.HandlerFunc {
 
 func (ch *CategoryHandler) UpdateCategory() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "admin" {
+			return c.JSON(fasthttp.StatusUnauthorized, "admin only")
+		}
+
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			return c.JSON(fasthttp.StatusBadRequest, err.Error())
