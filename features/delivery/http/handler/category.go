@@ -65,12 +65,20 @@ func (ch *CategoryHandler) GetCategories() echo.HandlerFunc {
 			}
 		}
 
+		if page == 0 {
+			page = 1
+		}
+
 		var limit int
 		if c.QueryParam("limit") != "" {
 			limit, err = strconv.Atoi(c.QueryParam("limit"))
 			if err != nil {
 				return c.JSON(fasthttp.StatusBadRequest, err.Error())
 			}
+		}
+
+		if limit == 0 {
+			limit = 10
 		}
 
 		sort := c.QueryParam("sort")

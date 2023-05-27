@@ -43,9 +43,9 @@ func (cu *courseUsecase) GetCourseByID(ctx context.Context, id int64) (course do
 	return
 }
 
-func (cu *courseUsecase) GetAllCourse(ctx context.Context, page, limit int64, sort string, categoryId ...*string) (course []domain.Course, err error) {
+func (cu *courseUsecase) GetAllCourse(ctx context.Context, page, limit int64, search string, sort string, categoryId ...*string) (course []domain.Course, err error) {
 	offset := (page - 1) * limit
-	course, err = cu.courseMySQLRepo.SelectAllCourse(ctx, offset, limit, sort, categoryId...)
+	course, err = cu.courseMySQLRepo.SelectAllCourse(ctx, offset, limit, search, sort, categoryId...)
 	if err != nil {
 		log.Error(err)
 		return

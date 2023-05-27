@@ -64,9 +64,9 @@ func (db *mysqlCategoryRepository) SelectCategoryByID(ctx context.Context, id in
 func (db *mysqlCategoryRepository) SelectAllCategory(ctx context.Context, page, limit int64, sort string) (category []domain.Category, err error) {
 	var query string
 	if sort == "popular" || sort == "unpopular" {
-		query = `SELECT c.id, c.name, c.dtm_crt, c.dtm_upd, COUNT(co.category_id) AS most_popular FROM transaction t
+		query = `SELECT c.name, COUNT(co.category_id) AS most_popular FROM transaction t
 		INNER JOIN course co ON t.course_id = co.id
-		INNER JOIN category c ON c.category_id = c.id
+		INNER JOIN category c ON co.category_id = c.id
 		GROUP BY c.name ORDER BY most_popular`
 
 		if sort != "" {
@@ -99,7 +99,7 @@ func (db *mysqlCategoryRepository) SelectAllCategory(ctx context.Context, page, 
 
 		for rows.Next() {
 			var i domain.Category
-			err = rows.Scan(&i.ID, &i.Name, &i.DtmCrt, &i.DtmUpd, &i.Count)
+			err = rows.Scan(&i.Name, &i.Count)
 			if err != nil {
 				log.Error(err)
 				return
