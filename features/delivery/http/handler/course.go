@@ -42,6 +42,15 @@ func (ch *CourseHandler) CreateCourse() echo.HandlerFunc {
 
 func (ch *CourseHandler) GetCourseByID() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "user" {
+			return c.JSON(fasthttp.StatusUnauthorized, "user only")
+		}
+
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			return c.JSON(fasthttp.StatusBadRequest, err.Error())
@@ -58,6 +67,15 @@ func (ch *CourseHandler) GetCourseByID() echo.HandlerFunc {
 
 func (ch *CourseHandler) GetAllCourse() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "user" {
+			return c.JSON(fasthttp.StatusUnauthorized, "user only")
+		}
+
 		var page int
 		if c.QueryParam("page") != "" {
 			page, err = strconv.Atoi(c.QueryParam("page"))
@@ -75,6 +93,7 @@ func (ch *CourseHandler) GetAllCourse() echo.HandlerFunc {
 		}
 
 		sort := c.QueryParam("sort")
+		search := c.QueryParam("search")
 
 		var cat *string
 		categoryId := c.QueryParam("category_id")
@@ -82,7 +101,7 @@ func (ch *CourseHandler) GetAllCourse() echo.HandlerFunc {
 			cat = &categoryId
 		}
 
-		res, err := ch.CourseUsecase.GetAllCourse(c.Request().Context(), int64(page), int64(limit), sort, cat)
+		res, err := ch.CourseUsecase.GetAllCourse(c.Request().Context(), int64(page), int64(limit), search, sort, cat)
 		if err != nil {
 			return c.JSON(fasthttp.StatusInternalServerError, err.Error())
 		}

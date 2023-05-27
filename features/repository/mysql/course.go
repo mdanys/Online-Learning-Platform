@@ -67,7 +67,7 @@ func (db *mysqlCourseRepository) SelectCourseByID(ctx context.Context, id int64)
 	return
 }
 
-func (db *mysqlCourseRepository) SelectAllCourse(ctx context.Context, page, limit int64, sort string, categoryId ...*string) (course []domain.Course, err error) {
+func (db *mysqlCourseRepository) SelectAllCourse(ctx context.Context, page, limit int64, search string, sort string, categoryId ...*string) (course []domain.Course, err error) {
 	query := `SELECT id, category_id, name, detail, price, dtm_crt, dtm_upd FROM course`
 
 	if categoryId[0] != nil {
@@ -76,16 +76,24 @@ func (db *mysqlCourseRepository) SelectAllCourse(ctx context.Context, page, limi
 			i = append(i, *v)
 		}
 		query += ` WHERE category_id IN (` + strings.Join(i, ",") + `)`
+	}
 
-		if sort != "" {
-			if sort == "ASC" {
-				query += ` ORDER BY category_id ` + sort
-			} else if sort == "DESC" {
-				query += ` ORDER BY category_id ` + sort
-			} else {
-				query += ` ORDER BY category_id ASC`
-			}
-		}
+	if search != "" {
+		query += " WHERE MATCH(name) AGAINST('" + search + "')"
+	}
+
+	if sort == "lowest" {
+		query += " ORDER BY price > 0 ASC"
+
+	} else if sort == "highest" {
+		query += " ORDER BY price > 0 DESC"
+
+	} else if sort == "free" {
+		query += " ORDER BY price = 0 ASC"
+
+	} else {
+		query += " ORDER BY id"
+
 	}
 
 	rows, err := db.Conn.QueryContext(ctx, query)
