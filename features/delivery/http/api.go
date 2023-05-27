@@ -30,8 +30,8 @@ func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUse
 
 	// Course
 	e.POST("/course", handlerCourse.CreateCourse(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
-	e.GET("/course/:id", handlerCourse.GetCourseByID())
-	e.GET("/course", handlerCourse.GetAllCourse())
+	e.GET("/course/:id", handlerCourse.GetCourseByID(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
+	e.GET("/course", handlerCourse.GetAllCourse(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 	e.PATCH("/course/:id", handlerCourse.UpdateCourse(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 	e.DELETE("/course/:id", handlerCourse.DeleteCourse(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 

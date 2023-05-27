@@ -6,11 +6,11 @@ import (
 )
 
 type Category struct {
-	ID     int64     `json:"id"`
-	Name   string    `json:"name"`
-	Count  *int      `json:"most_popular,omitempty"`
-	DtmCrt time.Time `json:"dtm_crt"`
-	DtmUpd time.Time `json:"dtm_upd"`
+	ID     int64      `json:"id,omitempty"`
+	Name   string     `json:"name,omitempty"`
+	Count  *int       `json:"most_popular,omitempty"`
+	DtmCrt *time.Time `json:"dtm_crt,omitempty"`
+	DtmUpd *time.Time `json:"dtm_upd,omitempty"`
 }
 
 type CategoryRequest struct {
