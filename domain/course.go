@@ -29,6 +29,8 @@ type CourseMySQLRepository interface {
 	SelectAllCourse(ctx context.Context, page, limit int64, sort string, categoryId ...*string) (course []Course, err error)
 	EditCourse(ctx context.Context, req CourseRequest, id int64) (err error)
 	RemoveCourse(ctx context.Context, id int64) (err error)
+	SelectTotalCourse(ctx context.Context) (count int64, err error)
+	SelectTotalFreeCourse(ctx context.Context) (count int64, err error)
 }
 
 // CourseUsecase is Course usecase

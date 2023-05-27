@@ -39,12 +39,19 @@ type LoginRequest struct {
 	Password string `json:"password" form:"password" validate:"required"`
 }
 
+type SimpleStatisticsResponse struct {
+	TotalUser       int64 `json:"total_user"`
+	TotalCourse     int64 `json:"total_course"`
+	TotalFreeCourse int64 `json:"total_free_course"`
+}
+
 // UserMySQLRepository is User repository in MySQL
 type UserMySQLRepository interface {
 	SelectUserLogin(ctx context.Context, req LoginRequest) (user User, err error)
 	InsertUser(ctx context.Context, req UserRequest) (id int64, err error)
 	SelectUserByID(ctx context.Context, id int64) (user User, err error)
 	RemoveUser(ctx context.Context, id int64) (err error)
+	SelectTotalUser(ctx context.Context) (count int64, err error)
 }
 
 // UserUsecase is User usecase
@@ -52,4 +59,5 @@ type UserUsecase interface {
 	GetUserLogin(ctx context.Context, req LoginRequest) (user UserLogin, err error)
 	CreateUser(ctx context.Context, req UserRequest) (user User, err error)
 	DeleteUser(ctx context.Context, id int64) (err error)
+	GetSimpleStatistics(ctx context.Context) (statistic SimpleStatisticsResponse, err error)
 }

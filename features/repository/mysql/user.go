@@ -118,3 +118,17 @@ func (db *mysqlUserRepository) RemoveUser(ctx context.Context, id int64) (err er
 
 	return
 }
+
+func (db *mysqlUserRepository) SelectTotalUser(ctx context.Context) (count int64, err error) {
+	query := `SELECT COUNT(id) FROM user WHERE role = 'user'`
+	log.Debug(query)
+
+	row := db.Conn.QueryRowContext(ctx, query)
+	err = row.Scan(&count)
+	if err != nil {
+		log.Error(err)
+		return
+	}
+
+	return
+}

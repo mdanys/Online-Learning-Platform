@@ -38,4 +38,7 @@ func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUse
 	// Transaction
 	e.POST("/transaction", handlerTransaction.CreateTransaction(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 	e.GET("/transaction/:id", handlerTransaction.GetTransactionByID())
+
+	// Statistics
+	e.GET("/statistics", handlerUser.GetSimpleStatistics(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 }

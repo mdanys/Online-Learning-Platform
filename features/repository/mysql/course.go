@@ -169,3 +169,33 @@ func (db *mysqlCourseRepository) RemoveCourse(ctx context.Context, id int64) (er
 
 	return
 }
+
+func (db *mysqlCourseRepository) SelectTotalCourse(ctx context.Context) (count int64, err error) {
+	query := `SELECT COUNT(id) FROM course`
+	log.Debug(query)
+
+	row := db.Conn.QueryRowContext(ctx, query)
+	err = row.Scan(&count)
+	if err != nil {
+		err = errors.New("course not found")
+		log.Error(err)
+		return
+	}
+
+	return
+}
+
+func (db *mysqlCourseRepository) SelectTotalFreeCourse(ctx context.Context) (count int64, err error) {
+	query := `SELECT COUNT(id) FROM course WHERE price = 0`
+	log.Debug(query)
+
+	row := db.Conn.QueryRowContext(ctx, query)
+	err = row.Scan(&count)
+	if err != nil {
+		err = errors.New("course not found")
+		log.Error(err)
+		return
+	}
+
+	return
+}

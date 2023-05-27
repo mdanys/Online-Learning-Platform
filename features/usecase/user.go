@@ -11,12 +11,14 @@ import (
 )
 
 type userUsecase struct {
-	userMySQLRepo domain.UserMySQLRepository
+	userMySQLRepo   domain.UserMySQLRepository
+	courseMySQLRepo domain.CourseMySQLRepository
 }
 
-func NewUserUsecase(userMySQLRepo domain.UserMySQLRepository) domain.UserUsecase {
+func NewUserUsecase(userMySQLRepo domain.UserMySQLRepository, courseMySQLRepo domain.CourseMySQLRepository) domain.UserUsecase {
 	return &userUsecase{
-		userMySQLRepo: userMySQLRepo,
+		userMySQLRepo:   userMySQLRepo,
+		courseMySQLRepo: courseMySQLRepo,
 	}
 }
 
@@ -74,6 +76,32 @@ func (uu *userUsecase) DeleteUser(ctx context.Context, id int64) (err error) {
 		log.Error(err)
 		return
 	}
+
+	return
+}
+
+func (uu *userUsecase) GetSimpleStatistics(ctx context.Context) (statistic domain.SimpleStatisticsResponse, err error) {
+	totalUser, err := uu.userMySQLRepo.SelectTotalUser(ctx)
+	if err != nil {
+		log.Error(err)
+		totalUser = 0
+	}
+
+	totalCourse, err := uu.courseMySQLRepo.SelectTotalCourse(ctx)
+	if err != nil {
+		log.Error(err)
+		totalCourse = 0
+	}
+
+	totalFreeCourse, err := uu.courseMySQLRepo.SelectTotalFreeCourse(ctx)
+	if err != nil {
+		log.Error(err)
+		totalFreeCourse = 0
+	}
+
+	statistic.TotalUser = totalUser
+	statistic.TotalCourse = totalCourse
+	statistic.TotalFreeCourse = totalFreeCourse
 
 	return
 }
