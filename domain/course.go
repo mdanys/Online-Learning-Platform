@@ -11,6 +11,7 @@ type Course struct {
 	Name       string    `json:"name"`
 	Detail     *string   `json:"detail"`
 	Price      float64   `json:"price"`
+	Picture    string    `json:"picture"`
 	DtmCrt     time.Time `json:"dtm_crt"`
 	DtmUpd     time.Time `json:"dtm_upd"`
 }
@@ -20,6 +21,7 @@ type CourseRequest struct {
 	Name       string  `json:"name" form:"name"`
 	Detail     *string `json:"detail" form:"detail"`
 	Price      float64 `json:"price" form:"price"`
+	Picture    string  `json:"picture" form:"picture"`
 }
 
 // CourseMySQLRepository is Course repository in MySQL

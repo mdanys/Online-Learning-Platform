@@ -15,6 +15,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.0.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
@@ -22,6 +23,7 @@ require (
 )
 
 require (
+	github.com/aws/aws-sdk-go v1.44.271
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/go-playground/validator/v10 v10.14.0
 	github.com/golang-migrate/migrate/v4 v4.15.2

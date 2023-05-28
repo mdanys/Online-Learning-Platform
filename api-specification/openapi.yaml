@@ -510,6 +510,13 @@ paths:
       description: Get Transaction for user
       security:
         - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Transaction ID
+          schema:
+            type: integer
       responses:
         '200':
           description: Success

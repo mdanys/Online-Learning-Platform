@@ -10,6 +10,7 @@ type User struct {
 	Email    string    `json:"email"`
 	Password string    `json:"password,omitempty"`
 	Name     string    `json:"name"`
+	Picture  string    `json:"picture"`
 	Role     string    `json:"role"`
 	Deleted  bool      `json:"deleted,omitempty"`
 	DtmCrt   time.Time `json:"dtm_crt"`
@@ -21,6 +22,7 @@ type UserLogin struct {
 	Email    string    `json:"email"`
 	Password string    `json:"password,omitempty"`
 	Name     string    `json:"name"`
+	Picture  string    `json:"picture"`
 	Role     string    `json:"role"`
 	Deleted  bool      `json:"deleted,omitempty"`
 	DtmCrt   time.Time `json:"dtm_crt"`
@@ -32,6 +34,7 @@ type UserRequest struct {
 	Email    string `json:"email" form:"email" validate:"required,email"`
 	Password string `json:"password" form:"password" validate:"required"`
 	Name     string `json:"name" form:"name" validate:"required"`
+	Picture  string `json:"picture" form:"picture"`
 }
 
 type LoginRequest struct {
