@@ -20,8 +20,8 @@ func RouteAPI(e *echo.Echo, category domain.CategoryUsecase, user domain.UserUse
 
 	// Category
 	e.POST("/category", handlerCategory.CreateCategory(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
-	e.GET("/category", handlerCategory.GetCategories())
-	e.GET("/category/:id", handlerCategory.GetCategory())
+	e.GET("/category", handlerCategory.GetCategories(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
+	e.GET("/category/:id", handlerCategory.GetCategory(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 	e.PUT("/category/:id", handlerCategory.UpdateCategory(), middleware.JWT([]byte(os.Getenv("JWT_SECRET"))))
 
 	// User
