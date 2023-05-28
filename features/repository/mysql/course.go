@@ -21,7 +21,7 @@ func NewMySQLCourseRepository(Conn *sql.DB) domain.CourseMySQLRepository {
 }
 
 func (db *mysqlCourseRepository) InsertCourse(ctx context.Context, req domain.CourseRequest) (id int64, err error) {
-	query := `INSERT INTO course (category_id, name, detail, price, dtm_crt, dtm_upd) VALUES (?, ?, ?, ?, NOW(), NOW())`
+	query := `INSERT INTO course (category_id, name, detail, price, picture, dtm_crt, dtm_upd) VALUES (?, ?, ?, ?, ?, NOW(), NOW())`
 	log.Debug(query)
 
 	stmt, err := db.Conn.PrepareContext(ctx, query)
@@ -30,7 +30,7 @@ func (db *mysqlCourseRepository) InsertCourse(ctx context.Context, req domain.Co
 		return
 	}
 
-	res, err := stmt.ExecContext(ctx, req.CategoryID, req.Name, req.Detail, req.Price)
+	res, err := stmt.ExecContext(ctx, req.CategoryID, req.Name, req.Detail, req.Price, req.Picture)
 	if err != nil {
 		err = errors.New("failed to create course")
 		log.Error(err)
@@ -47,7 +47,7 @@ func (db *mysqlCourseRepository) InsertCourse(ctx context.Context, req domain.Co
 }
 
 func (db *mysqlCourseRepository) SelectCourseByID(ctx context.Context, id int64) (course domain.Course, err error) {
-	query := `SELECT id, category_id, name, detail, price, dtm_crt, dtm_upd FROM course WHERE id = ?`
+	query := `SELECT id, category_id, name, detail, price, picture, dtm_crt, dtm_upd FROM course WHERE id = ?`
 	log.Debug(query)
 
 	stmt, err := db.Conn.PrepareContext(ctx, query)
@@ -57,7 +57,7 @@ func (db *mysqlCourseRepository) SelectCourseByID(ctx context.Context, id int64)
 	}
 
 	row := stmt.QueryRowContext(ctx, id)
-	err = row.Scan(&course.ID, &course.CategoryID, &course.Name, &course.Detail, &course.Price, &course.DtmCrt, &course.DtmUpd)
+	err = row.Scan(&course.ID, &course.CategoryID, &course.Name, &course.Detail, &course.Price, &course.Picture, &course.DtmCrt, &course.DtmUpd)
 	if err != nil {
 		err = errors.New("course not found")
 		log.Error(err)
@@ -68,7 +68,7 @@ func (db *mysqlCourseRepository) SelectCourseByID(ctx context.Context, id int64)
 }
 
 func (db *mysqlCourseRepository) SelectAllCourse(ctx context.Context, page, limit int64, search string, sort string, categoryId ...*string) (course []domain.Course, err error) {
-	query := `SELECT id, category_id, name, detail, price, dtm_crt, dtm_upd FROM course`
+	query := `SELECT id, category_id, name, detail, price, picture, dtm_crt, dtm_upd FROM course`
 
 	if categoryId[0] != nil {
 		var i []string
@@ -105,7 +105,7 @@ func (db *mysqlCourseRepository) SelectAllCourse(ctx context.Context, page, limi
 
 	for rows.Next() {
 		var i domain.Course
-		err = rows.Scan(&i.ID, &i.CategoryID, &i.Name, &i.Detail, &i.Price, &i.DtmCrt, &i.DtmUpd)
+		err = rows.Scan(&i.ID, &i.CategoryID, &i.Name, &i.Detail, &i.Price, &i.Picture, &i.DtmCrt, &i.DtmUpd)
 		if err != nil {
 			log.Error(err)
 			return
@@ -118,7 +118,7 @@ func (db *mysqlCourseRepository) SelectAllCourse(ctx context.Context, page, limi
 }
 
 func (db *mysqlCourseRepository) EditCourse(ctx context.Context, req domain.CourseRequest, id int64) (err error) {
-	query := `UPDATE course SET category_id = ?, name = ?, detail = ?, price = ? WHERE id = ?`
+	query := `UPDATE course SET category_id = ?, name = ?, detail = ?, price = ?, picture = ? WHERE id = ?`
 	log.Debug(query)
 
 	stmt, err := db.Conn.PrepareContext(ctx, query)
@@ -127,7 +127,7 @@ func (db *mysqlCourseRepository) EditCourse(ctx context.Context, req domain.Cour
 		return
 	}
 
-	res, err := stmt.ExecContext(ctx, req.CategoryID, req.Name, req.Detail, req.Price, id)
+	res, err := stmt.ExecContext(ctx, req.CategoryID, req.Name, req.Detail, req.Price, req.Picture, id)
 	if err != nil {
 		log.Error(err)
 		return

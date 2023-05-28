@@ -510,6 +510,13 @@ paths:
       description: Get Transaction for user
       security:
         - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Transaction ID
+          schema:
+            type: integer
       responses:
         '200':
           description: Success
@@ -616,6 +623,9 @@ components:
           type: string
           description: Name
           example: John Doe
+        picture:
+          type: string
+          format: binary
       required:
         - email
         - password
@@ -639,6 +649,10 @@ components:
           type: integer
           description: Course price
           example: 100000
+        picture:
+          type: string
+          description: Course picture
+          example: https://www.aws.com
       required:
         - category_id
         - name
@@ -658,6 +672,12 @@ components:
         detail:
           type: string
           example: This is John Doe
+        price:
+          type: integer
+          example: 100000
+        picture:
+          type: string
+          example: https://www.aws.com
         dtm_crt:
           type: string
           format: date
@@ -736,6 +756,9 @@ components:
         name:
           type: string
           example: John Doe
+        picture:
+          type: string
+          example: https://www.aws.com
         role:
           type: string
           example: User
@@ -760,6 +783,9 @@ components:
         name:
           type: string
           example: John Doe
+        picture:
+          type: string
+          example: https://www.aws.com
         role:
           type: string
           example: User
@@ -787,6 +813,9 @@ components:
         price:
           type: integer
           example: 100000
+        picture:
+          type: string
+          example: https://www.aws.com
         dtm_crt:
           type: string
           format: date

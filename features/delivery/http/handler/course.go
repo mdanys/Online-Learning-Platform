@@ -2,6 +2,7 @@ package handler
 
 import (
 	"online-learning-platform/domain"
+	"online-learning-platform/utils/aws"
 	"online-learning-platform/utils/middlewares"
 	"strconv"
 	"strings"
@@ -29,6 +30,18 @@ func (ch *CourseHandler) CreateCourse() echo.HandlerFunc {
 		err = c.Bind(&input)
 		if err != nil {
 			return c.JSON(fasthttp.StatusBadRequest, err.Error())
+		}
+
+		file, fileheader, _ := c.Request().FormFile("picture")
+		if err != nil {
+			return c.JSON(fasthttp.StatusBadRequest, err.Error())
+		}
+
+		if file != nil {
+			input.Picture, err = aws.UploadFile(file, fileheader)
+			if err != nil {
+				return c.JSON(fasthttp.StatusBadRequest, err.Error())
+			}
 		}
 
 		res, err := ch.CourseUsecase.CreateCourse(c.Request().Context(), input)

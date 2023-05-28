@@ -20,7 +20,7 @@ func NewMySQLUserRepository(Conn *sql.DB) domain.UserMySQLRepository {
 }
 
 func (db *mysqlUserRepository) SelectUserLogin(ctx context.Context, req domain.LoginRequest) (user domain.User, err error) {
-	query := `SELECT id, email, password, name, role, dtm_crt, dtm_upd FROM user WHERE email = ? AND deleted = 0`
+	query := `SELECT id, email, password, name, picture, role, dtm_crt, dtm_upd FROM user WHERE email = ? AND deleted = 0`
 	log.Debug(query)
 
 	stmt, err := db.Conn.PrepareContext(ctx, query)
@@ -30,7 +30,7 @@ func (db *mysqlUserRepository) SelectUserLogin(ctx context.Context, req domain.L
 	}
 
 	row := stmt.QueryRowContext(ctx, req.Email)
-	err = row.Scan(&user.ID, &user.Email, &user.Password, &user.Name, &user.Role, &user.DtmCrt, &user.DtmUpd)
+	err = row.Scan(&user.ID, &user.Email, &user.Password, &user.Name, &user.Picture, &user.Role, &user.DtmCrt, &user.DtmUpd)
 	if err != nil {
 		err = errors.New("user not found")
 		log.Error(err)
@@ -41,7 +41,7 @@ func (db *mysqlUserRepository) SelectUserLogin(ctx context.Context, req domain.L
 }
 
 func (db *mysqlUserRepository) InsertUser(ctx context.Context, req domain.UserRequest) (id int64, err error) {
-	query := `INSERT INTO user (email, password, name, role, deleted, dtm_crt, dtm_upd) VALUES (?, ?, ?, 'user', false, NOW(), NOW())`
+	query := `INSERT INTO user (email, password, name, picture, role, deleted, dtm_crt, dtm_upd) VALUES (?, ?, ?, ?, 'user', false, NOW(), NOW())`
 	log.Debug(query)
 
 	stmt, err := db.Conn.PrepareContext(ctx, query)
@@ -50,7 +50,7 @@ func (db *mysqlUserRepository) InsertUser(ctx context.Context, req domain.UserRe
 		return
 	}
 
-	res, err := stmt.ExecContext(ctx, req.Email, req.Password, req.Name)
+	res, err := stmt.ExecContext(ctx, req.Email, req.Password, req.Name, req.Picture)
 	if err != nil {
 		err = errors.New("failed to create user")
 		log.Error(err)
@@ -67,7 +67,7 @@ func (db *mysqlUserRepository) InsertUser(ctx context.Context, req domain.UserRe
 }
 
 func (db *mysqlUserRepository) SelectUserByID(ctx context.Context, id int64) (user domain.User, err error) {
-	query := `SELECT id, email, name, role, dtm_crt, dtm_upd FROM user WHERE id = ? AND deleted = 0`
+	query := `SELECT id, email, name, picture, role, dtm_crt, dtm_upd FROM user WHERE id = ? AND deleted = 0`
 	log.Debug(query)
 
 	stmt, err := db.Conn.PrepareContext(ctx, query)
@@ -77,7 +77,7 @@ func (db *mysqlUserRepository) SelectUserByID(ctx context.Context, id int64) (us
 	}
 
 	row := stmt.QueryRowContext(ctx, id)
-	err = row.Scan(&user.ID, &user.Email, &user.Name, &user.Role, &user.DtmCrt, &user.DtmUpd)
+	err = row.Scan(&user.ID, &user.Email, &user.Name, &user.Picture, &user.Role, &user.DtmCrt, &user.DtmUpd)
 	if err != nil {
 		err = errors.New("user not found")
 		log.Error(err)
