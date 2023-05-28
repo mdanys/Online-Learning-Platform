@@ -51,6 +51,15 @@ func (ch *CategoryHandler) CreateCategory() echo.HandlerFunc {
 
 func (ch *CategoryHandler) GetCategory() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "user" {
+			return c.JSON(fasthttp.StatusUnauthorized, "user only")
+		}
+
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
 			return c.JSON(fasthttp.StatusBadRequest, err.Error())
@@ -67,6 +76,15 @@ func (ch *CategoryHandler) GetCategory() echo.HandlerFunc {
 
 func (ch *CategoryHandler) GetCategories() echo.HandlerFunc {
 	return func(c echo.Context) (err error) {
+		_, role, err := middlewares.ExtractToken(c)
+		if err != nil {
+			return c.JSON(fasthttp.StatusUnauthorized, err.Error())
+		}
+
+		if role != "user" {
+			return c.JSON(fasthttp.StatusUnauthorized, "user only")
+		}
+
 		var page int
 		if c.QueryParam("page") != "" {
 			page, err = strconv.Atoi(c.QueryParam("page"))
