@@ -81,46 +81,7 @@
 
 
 
-```erd
-[category] {bgcolor: "#d0f0d0"}
-  *id {label: "bigint(20), auto_increment"}
-  *name {label: "varchar(255), not null"}
-  *dtm_crt {label: "datetime, not null"}
-  *dtm_upd {label: "datetime, not null"}
-
-[course] {bgcolor: "#f0b0b0"}
-  *id {label: "bigint(20), auto_increment"}
-  *category_id {label: "bigint(20), not null"}
-  *name {label: "varchar(255), not null"}
-  *detail {label: "text"}
-  *price {label: "decimal(10,2), not null"}
-  *picture {label: "varchar(1024)"}
-  *dtm_crt {label: "datetime, not null"}
-  *dtm_upd {label: "datetime, not null"}
-
-[transaction] {bgcolor: "#b0d0f0"}
-  *id {label: "bigint(20), auto_increment"}
-  *user_id {label: "bigint(20), not null"}
-  *category_id {label: "bigint(20), not null"}
-  *price {label: "decimal(10,2), not null"}
-  *dtm_crt {label: "datetime, not null"}
-  *dtm_upd {label: "datetime, not null"}
-
-[user] {bgcolor: "#b0b0f0"}
-  *id {label: "bigint(20), auto_increment"}
-  *email {label: "varchar(255), not null"}
-  *password {label: "varchar(255), not null"}
-  *name {label: "varchar(255), not null"}
-  *picture {label: "varchar(1024)"}
-  *role {label: "varchar(255), not null"}
-  *deleted {label: "bool, not null"}
-  *dtm_crt {label: "datetime, not null"}
-  *dtm_upd {label: "datetime, not null"}
-
-course *--1 category {label: "category_id <--- id"}
-transaction *--1 user {label: "user_id <--- id"}
-transaction *--1 course {label: "course_id <--- id"}
-```
+[![Learning-ERD][erd-screenshot]](https://github.com/mdanys/Online-Learning-Platform/blob/main/utils/erd.jfif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -174,20 +135,20 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/GunTour/Back-End.svg?style=for-the-badge
-[contributors-url]: https://github.com/GunTour/Back-End/graphs/contributors
+[contributors-url]: https://github.com/mdanys/Online-Learning-Platform/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/GunTour/Back-End.svg?style=for-the-badge
-[forks-url]: https://github.com/GunTour/Back-End/network/members
+[forks-url]: https://github.com/mdanys/Online-Learning-Platform/network/members
 [stars-shield]: https://img.shields.io/github/stars/GunTour/Back-End.svg?style=for-the-badge
-[stars-url]: https://github.com/GunTour/Back-End/stargazers
+[stars-url]: https://github.com/mdanys/Online-Learning-Platform/stargazers
 [issues-shield]: https://img.shields.io/github/issues/GunTour/Back-End.svg?style=for-the-badge
-[issues-url]: https://github.com/GunTour/Back-End/issues
+[issues-url]: https://github.com/mdanys/Online-Learning-Platform/issues
 [license-shield]: https://img.shields.io/github/license/GunTour/Back-End.svg?style=for-the-badge
-[license-url]: https://github.com/GunTour/Back-End/blob/main/LICENSE.txt
+[license-url]: https://github.com/mdanys/Online-Learning-Platform/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url-1]: https://linkedin.com/in/khalidrianda
 [linkedin-url-2]: https://linkedin.com/in/mochammaddany
 [product-screenshot]: utils/online-learning-platform.png
-[erd-screenshot]: readme/erd.jpg
+[erd-screenshot]: utils/erd.jfif
 [Go]: https://img.shields.io/github/go-mod/go-version/GunTour/Back-End
 [go-url]: https://go.dev/
 [Echo]: https://img.shields.io/badge/Echo-v4-9cf
