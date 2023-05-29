@@ -186,7 +186,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url-1]: https://linkedin.com/in/khalidrianda
 [linkedin-url-2]: https://linkedin.com/in/mochammaddany
-[product-screenshot]: readme/GunTour.gif
+[product-screenshot]: utils/online-learning-platform.png
 [erd-screenshot]: readme/erd.jpg
 [Go]: https://img.shields.io/github/go-mod/go-version/GunTour/Back-End
 [go-url]: https://go.dev/
