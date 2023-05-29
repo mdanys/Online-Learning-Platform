@@ -43,7 +43,6 @@
       <a href="#features">Features</a>
       <ul>
         <li><a href="#entity-relationship-diagram">Entity Relationship Diagram</a></li>
-        <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
     <li>
@@ -53,9 +52,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -161,7 +158,7 @@ transaction *--1 course {label: "course_id <--- id"}
 
 _For more examples, please refer to the [OPEN API](https://app.swaggerhub.com/apis-docs/mdanys/online-learning-platform/1.0.0)_
 
-[![GunTour-API][product-screenshot]](https://github.com/GunTour/Back-End/blob/main/utils/online-learning-platform
+[![GunTour-API][product-screenshot]](https://github.com/mdanys/Online-Learning-Platform/blob/main/utils/online-learning-platform
 
 
 
