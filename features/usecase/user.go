@@ -55,6 +55,8 @@ func (uu *userUsecase) CreateUser(ctx context.Context, req domain.UserRequest) (
 		return
 	}
 	req.Password = string(generate)
+	req.Role = "user"
+	req.Deleted = false
 
 	id, err := uu.userMySQLRepo.InsertUser(ctx, req)
 	if err != nil {

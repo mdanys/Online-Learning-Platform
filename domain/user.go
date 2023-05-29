@@ -35,6 +35,8 @@ type UserRequest struct {
 	Password string `json:"password" form:"password" validate:"required"`
 	Name     string `json:"name" form:"name" validate:"required"`
 	Picture  string `json:"picture" form:"picture"`
+	Role     string `json:"role" form:"role"`
+	Deleted  bool   `json:"deleted" form:"deleted"`
 }
 
 type LoginRequest struct {
