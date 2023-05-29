@@ -39,6 +39,7 @@ func (uu *userUsecase) GetUserLogin(ctx context.Context, req domain.LoginRequest
 	user.ID = data.ID
 	user.Email = data.Email
 	user.Name = data.Name
+	user.Picture = data.Picture
 	user.Role = data.Role
 	user.DtmCrt = data.DtmCrt
 	user.DtmUpd = data.DtmUpd
