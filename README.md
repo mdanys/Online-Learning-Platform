@@ -144,7 +144,7 @@ transaction *--1 course {label: "course_id <--- id"}
    ```
 4. Run project
    ```bash
-   cd cd Online-Learning-Platform
+   cd Online-Learning-Platform
    paste your config.env
    go run .
    ```
@@ -158,7 +158,7 @@ transaction *--1 course {label: "course_id <--- id"}
 
 _For more examples, please refer to the [OPEN API](https://app.swaggerhub.com/apis-docs/mdanys/online-learning-platform/1.0.0)_
 
-[![GunTour-API][product-screenshot]](https://github.com/mdanys/Online-Learning-Platform/blob/main/utils/online-learning-platform
+[![GunTour-API][product-screenshot]](https://github.com/mdanys/Online-Learning-Platform/blob/main/utils/online-learning-platform.png)
 
 
 
