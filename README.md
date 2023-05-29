@@ -117,6 +117,13 @@
 <!-- USAGE EXAMPLES -->
 ## Documentation
 
+```bash
+Login as admin :
+
+email : admin@gmail.com
+password : admin123
+```
+
 _For more examples, please refer to the [OPEN API](https://app.swaggerhub.com/apis-docs/mdanys/online-learning-platform/1.0.0)_
 
 [![GunTour-API][product-screenshot]](https://github.com/mdanys/Online-Learning-Platform/blob/main/utils/online-learning-platform.png)
